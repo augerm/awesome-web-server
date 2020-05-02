@@ -25,7 +25,7 @@ export interface AwesomeServerInterface {
 }
 
 export interface AwesomeServer {
-    new (wss: WebSocket.Server): AwesomeServerInterface;
+    new (wss: AwesomeWebSocketServer): AwesomeServerInterface;
 }
 
 export class AwesomeWebSocket {
@@ -41,11 +41,22 @@ export class AwesomeWebSocket {
     }
 }
 
+export class AwesomeWebSocketServer {
+    private webSockets: AwesomeWebSocket[];
+    getClients() {
+        return this.webSockets;
+    }
+    addClient(ws: AwesomeWebSocket) {
+        this.webSockets.push(ws);
+    }
+}
+
 export class AwesomeWebServer {
     private webSocketCounterId: number = 0;
     private webSockets: WebSocket[];
     private messageId: number = 0;
     private wss: WebSocket.Server;
+    private awesomeWebSocketServer = new AwesomeWebSocketServer();
     private registeredServers: Set<AwesomeServerInterface>;
 
     constructor(publicDir: string, options: AwesomeWebServerOptions = {}) {
@@ -86,6 +97,7 @@ export class AwesomeWebServer {
         this.wss.on('connection', (ws) => {
             console.log("Connection opened");
             const awesomeWebSocket = new AwesomeWebSocket(ws);
+            this.awesomeWebSocketServer.addClient(awesomeWebSocket);
             this.registeredServers.forEach((registeredServer) => {
                 if(registeredServer.handleConnection) {
                     registeredServer.handleConnection(awesomeWebSocket);
@@ -105,7 +117,7 @@ export class AwesomeWebServer {
     }
 
     registerServer(ServerCtor: AwesomeServer) {
-        const server = new ServerCtor(this.wss);
+        const server = new ServerCtor(this.awesomeWebSocketServer);
         this.registeredServers.add(server);
     }
 }
