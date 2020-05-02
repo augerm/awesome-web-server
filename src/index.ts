@@ -1,4 +1,4 @@
-import { AwesomeWebSocket, AwesomeWebServer, AwesomeServer } from './AwesomeWebServer';
+import { AwesomeWebSocket, AwesomeWebServer, AwesomeServer, WebSocketServer } from './AwesomeWebServer';
 import { AwesomeWebSocketConnection } from './AwesomeWebClient';
 import { PingPongService, PingPongMessageType } from './services/PingPongService';
 import { AwesomeWebSocketMessage, AwesomeWebSocketMessageFromServer, AwesomeWebSocketMessageFromClient } from './AwesomeMessageType';
@@ -14,4 +14,5 @@ export {
     AwesomeWebSocketMessage,
     AwesomeWebSocketMessageFromServer,
     AwesomeWebSocketMessageFromClient,
+    WebSocketServer,
 }
