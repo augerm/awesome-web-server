@@ -19,11 +19,11 @@ export interface AwesomeWebServerOptions {
     additionalStaticDirs?: string[],
 }
 
-export interface AwesomeServerCtor {
+export interface AwesomeServer {
     new (wss: WebSocket.Server): AwesomeServer;
 }
 
-export interface AwesomeServer {
+export interface AwesomeServerImpl {
     handleMessage?(ws: AwesomeWebSocket, message: AwesomeWebSocketMessageFromClient): void;
     handleConnection?(ws: AwesomeWebSocket): void;
 }
@@ -104,7 +104,7 @@ export class AwesomeWebServer {
         server.listen(process.env.PORT || port, () => console.log(`Example app listening at http://localhost:${port}`));
     }
 
-    registerServer(ServerCtor: AwesomeServerCtor) {
+    registerServer(ServerCtor: AwesomeServer) {
         const server = new ServerCtor(this.wss);
         this.registeredServers.add(server);
     }
