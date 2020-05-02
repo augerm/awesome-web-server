@@ -19,13 +19,13 @@ export interface AwesomeWebServerOptions {
     additionalStaticDirs?: string[],
 }
 
-export interface AwesomeServer {
-    new (wss: WebSocket.Server): AwesomeServer;
-}
-
 export interface AwesomeServerImpl {
     handleMessage?(ws: AwesomeWebSocket, message: AwesomeWebSocketMessageFromClient): void;
     handleConnection?(ws: AwesomeWebSocket): void;
+}
+
+export interface AwesomeServer {
+    new (wss: WebSocket.Server): AwesomeServerImpl;
 }
 
 export class AwesomeWebSocket {
@@ -46,7 +46,7 @@ export class AwesomeWebServer {
     private webSockets: WebSocket[];
     private messageId: number = 0;
     private wss: WebSocket.Server;
-    private registeredServers: Set<AwesomeServer>;
+    private registeredServers: Set<AwesomeServerImpl>;
 
     constructor(publicDir: string, options: AwesomeWebServerOptions = {}) {
         if(options.mustacheConfig) {
@@ -107,9 +107,5 @@ export class AwesomeWebServer {
     registerServer(ServerCtor: AwesomeServer) {
         const server = new ServerCtor(this.wss);
         this.registeredServers.add(server);
-    }
-
-    unregisterServer(server: AwesomeServer) {
-        this.registeredServers.delete(server);
     }
 }
