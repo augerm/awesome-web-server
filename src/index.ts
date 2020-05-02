@@ -1,11 +1,11 @@
-import { AwesomeWebSocket, AwesomeWebServer, AwesomeServer, WebSocketServer } from './AwesomeWebServer';
+import { AwesomeWebSocket, AwesomeWebServer, AwesomeServerInterface, WebSocketServer } from './AwesomeWebServer';
 import { AwesomeWebSocketConnection } from './AwesomeWebClient';
 import { PingPongService, PingPongMessageType } from './services/PingPongService';
 import { AwesomeWebSocketMessage, AwesomeWebSocketMessageFromServer, AwesomeWebSocketMessageFromClient } from './AwesomeMessageType';
 
 
 export {
-    AwesomeServer,
+    AwesomeServerInterface,
     AwesomeWebSocket,
     AwesomeWebServer,
     AwesomeWebSocketConnection,
