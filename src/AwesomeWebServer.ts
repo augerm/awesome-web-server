@@ -30,6 +30,7 @@ export interface AwesomeServer {
 
 export class AwesomeWebSocket {
     static id = 0;
+    private queuedMessages: AwesomeWebSocketMessageFromServer[] = []
     public id: string;
 
     constructor(private ws: WebSocket) {
@@ -37,7 +38,24 @@ export class AwesomeWebSocket {
     }
 
     send(message: AwesomeWebSocketMessageFromServer) {
-        this.ws.send(message);
+        if(this.ws.readyState === WebSocket.OPEN) {
+            this.ws.send(message);
+        } else {
+            this.queueMessage(message);
+            this.ws.onopen = this.flushQueuedMessages.bind(this);
+        } 
+    }
+
+    private queueMessage(message: AwesomeWebSocketMessageFromServer) {
+        this.queuedMessages.push(message);
+    }
+
+    private flushQueuedMessages() {
+        this.ws.onopen = null;
+        while(this.queuedMessages.length) {
+            const queuedMessage = this.queuedMessages.pop();
+            this.send(queuedMessage);
+        }
     }
 }
 
