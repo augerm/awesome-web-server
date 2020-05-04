@@ -2,15 +2,15 @@
   "name": "awesome-web-server",
   "version": "1.0.12",
   "description": "",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
+  "main": "lib/index.js",
+  "types": "lib/index.d.ts",
   "scripts": {
-    "build": "tsc",
+    "build": "webpack",
     "dev": "tsc-watch",
     "commit": "git add -A && git commit",
-    "patch": "npm run commit && npm run build && npm version patch && npm publish",
-    "minor": "npm run commit && npm run build && npm version minor && npm publish",
-    "major": "npm run commit && npm run build && npm version major && npm publish"
+    "patch": "npm run build && npm run commit && npm version patch && npm publish",
+    "minor": "npm run build && npm run commit && npm version minor && npm publish",
+    "major": "npm run build && npm run commit && npm version major && npm publish"
   },
   "author": "",
   "license": "ISC",
@@ -25,7 +25,10 @@
     "@types/ws": "^7.2.4"
   },
   "devDependencies": {
+    "ts-loader": "^7.0.2",
     "tsc-watch": "^4.2.3",
-    "typescript": "^3.8.3"
+    "typescript": "^3.8.3",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11"
   }
 }
