@@ -109,6 +109,8 @@ export class AwesomeWebServer {
             }
         }
 
+        app.get('*', (req, res) => res.sendFile(path.join(publicDir, 'index.html')));
+
         const server = http.createServer(app);
         this.wss = new WebSocket.Server({server});
         this.registeredServers = new Set();
