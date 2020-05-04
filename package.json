@@ -1,5 +1,5 @@
 {
-  "name": "awesome-web-server-temp",
+  "name": "awesome-web-server",
   "version": "1.0.11",
   "description": "",
   "main": "dist/index.js",
@@ -7,9 +7,10 @@
   "scripts": {
     "build": "tsc",
     "dev": "tsc-watch",
-    "patch": "npm run build && npm version patch && npm publish",
-    "minor": "npm run build && npm version minor && npm publish",
-    "major": "npm run build && npm version major && npm publish"
+    "commit": "git add -A && git commit",
+    "patch": "npm run commit && npm run build && npm version patch && npm publish",
+    "minor": "npm run commit && npm run build && npm version minor && npm publish",
+    "major": "npm run commit && npm run build && npm version major && npm publish"
   },
   "author": "",
   "license": "ISC",
