@@ -17,6 +17,8 @@ module.exports = {
   },
   output: {
     path: path.resolve(__dirname, 'lib'),
-    filename: 'index.js'
+    filename: 'index.js',
+    library: 'awesome-web-server',
+    libraryTarget: 'umd',
   }
 };
