@@ -6,7 +6,6 @@ import * as mustache from 'mustache';
 import * as bodyParser from 'body-parser';
 import * as express from 'express';
 import  { AwesomeWebSocketMessageFromServer, AwesomeWebSocketMessageFromClient } from './AwesomeMessageType';
-import { RequestHandler } from 'express';
 
 const app = express();
 const port = 8080;
