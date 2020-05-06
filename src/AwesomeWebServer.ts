@@ -6,10 +6,17 @@ import * as mustache from 'mustache';
 import * as bodyParser from 'body-parser';
 import * as express from 'express';
 import  { AwesomeWebSocketMessageFromServer, AwesomeWebSocketMessageFromClient } from './AwesomeMessageType';
+import { RequestHandler } from 'express';
 
 const app = express();
 const port = 8080;
 export type WebSocketServer = WebSocket.Server;
+
+export interface Route {
+    path: string;
+    cb: (req: express.Request, res: express.Response) => string;
+    httpMethod: 'GET' | 'POST' | 'PUT' | 'DELETE';
+}
 
 export interface AwesomeWebServerOptions {
     mustacheConfig?: {
@@ -17,6 +24,7 @@ export interface AwesomeWebServerOptions {
         viewDir: string;
     },
     additionalStaticDirs?: string[],
+    routes?: Route[],
 }
 
 export interface AwesomeServerInterface {
@@ -106,6 +114,20 @@ export class AwesomeWebServer {
         if(options.additionalStaticDirs) {
             for(const staticDir of options.additionalStaticDirs) {
                 app.use(express.static(staticDir));
+            }
+        }
+
+        if(options.routes) {
+            for(const route of options.routes) {
+                if(route.httpMethod === 'POST') {
+                    app.post(route.path, route.cb);
+                } else if(route.httpMethod === 'GET') {
+                    app.get(route.path, route.cb);
+                } else if(route.httpMethod === 'PUT') {
+                    app.put(route.path, route.cb);
+                } else if(route.httpMethod === 'DELETE') {
+                    app.delete(route.path, route.cb);
+                }
             }
         }
 
