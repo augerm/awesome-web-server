@@ -13,7 +13,7 @@ export type WebSocketServer = WebSocket.Server;
 
 export interface Route {
     path: string;
-    cb: (req: express.Request, res: express.Response) => string;
+    cb: (req: express.Request, res: express.Response) => void;
     httpMethod: 'GET' | 'POST' | 'PUT' | 'DELETE';
 }
 
