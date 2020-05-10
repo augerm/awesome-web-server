@@ -40,7 +40,7 @@ export class AwesomeWebSocket {
     private queuedMessages: AwesomeWebSocketMessageFromServer[] = []
     public id: string;
 
-    constructor(private ws: WebSocket) {
+    constructor(private ws: WebSocket, private wsServer: AwesomeWebSocketServer) {
         this.id = String(AwesomeWebSocket.id++);
     }
 
@@ -51,6 +51,15 @@ export class AwesomeWebSocket {
             this.queueMessage(message);
             this.ws.onopen = this.flushQueuedMessages.bind(this);
         } 
+    }
+
+    broadcast(message: AwesomeWebSocketMessageFromServer) {
+        const clients = this.wsServer.getClients();
+        for(const client of clients) {
+            if(client.id !== this.id) {
+                client.send(message);
+            }
+        }
     }
 
     private queueMessage(message: AwesomeWebSocketMessageFromServer) {
@@ -137,7 +146,7 @@ export class AwesomeWebServer {
         this.registeredServers = new Set();
         this.wss.on('connection', (ws) => {
             console.log("Connection opened");
-            const awesomeWebSocket = new AwesomeWebSocket(ws);
+            const awesomeWebSocket = new AwesomeWebSocket(ws, this.awesomeWebSocketServer);
             this.awesomeWebSocketServer.addClient(awesomeWebSocket);
             this.registeredServers.forEach((registeredServer) => {
                 if(registeredServer.handleConnection) {
