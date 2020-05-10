@@ -2,6 +2,11 @@ import { AwesomeWebSocketMessageFromClient, AwesomeWebSocketMessageFromServer } 
 
 type WebSocketListener = (messageFromServer: AwesomeWebSocketMessageFromServer) => void;
 
+export {
+    AwesomeWebSocketMessageFromClient,
+    AwesomeWebSocketMessageFromServer,
+}
+
 export class AwesomeWebSocketConnection {
     private ws: WebSocket;
     private queuedMessages: AwesomeWebSocketMessageFromClient[];
