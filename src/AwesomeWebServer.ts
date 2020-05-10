@@ -56,9 +56,8 @@ export class AwesomeWebSocket {
     broadcast(message: AwesomeWebSocketMessageFromServer, broadcastToSelf = false) {
         const clients = this.wsServer.getClients();
         for(const client of clients) {
-            if(!broadcastToSelf && client.id !== this.id) {
-                client.send(message);
-            }
+            if(!broadcastToSelf && client.id === this.id) continue;
+            client.send(message);
         }
     }
 
