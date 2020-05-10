@@ -56,9 +56,9 @@ export class AwesomeWebSocketConnection {
         this.flushQueuedMessages();
     }
 
-    private handleMessage(messageJson: string) {
+    private handleMessage(messageEvent: MessageEvent) {
         try {
-            const message = (JSON.parse(messageJson)) as AwesomeWebSocketMessageFromServer;
+            const message = (JSON.parse(messageEvent.data)) as AwesomeWebSocketMessageFromServer;
             const listeners = this.listeners.get(message.type);
             if(listeners) {
                 listeners.forEach((listener) => {
@@ -66,7 +66,7 @@ export class AwesomeWebSocketConnection {
                 });
             }
         } catch(err) {
-            console.error(`Received invalid JSON message from server: ${messageJson}`);
+            console.error(`Received invalid JSON message from server: ${messageEvent.data}`);
         }
     }
 
