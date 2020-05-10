@@ -19,7 +19,7 @@ const clientConfig = {
   target: 'web',
   ...sharedConfig,
   output: {
-    path: path.resolve(__dirname, 'lib/server'),
+    path: path.resolve(__dirname, 'lib/client'),
     filename: 'index.js',
     library: 'awesome-web-server',
     libraryTarget: 'umd',
