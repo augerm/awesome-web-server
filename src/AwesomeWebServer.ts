@@ -46,7 +46,7 @@ export class AwesomeWebSocket {
 
     send(message: AwesomeWebSocketMessageFromServer) {
         if(this.ws.readyState === WebSocket.OPEN) {
-            this.ws.send(message);
+            this.ws.send(JSON.stringify(message));
         } else {
             this.queueMessage(message);
             this.ws.onopen = this.flushQueuedMessages.bind(this);
