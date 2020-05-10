@@ -66,7 +66,8 @@ export class AwesomeWebSocketConnection {
                 });
             }
         } catch(err) {
-            console.error(`Received invalid JSON message from server: ${messageEvent.data}`);
+            console.error(`Maybe received invalid JSON message from server: ${messageEvent.data}`);
+            console.error(err);
         }
     }
 
