@@ -28,9 +28,11 @@ export class AwesomeWebSocketConnection {
 
     sendCommand(message: AwesomeWebSocketMessageFromClient) {
         const promise = new Promise<AwesomeWebSocketMessageFromServer>((resolve) => {
-            this.addListener(message.type, (messageFromServer) => {
+            const listener = (messageFromServer: any) => {
                 resolve(messageFromServer);
-            });
+                this.removeListener(message.type, listener);
+            };
+            this.addListener(message.type, listener);
             this.send(message);
         });
         return promise;
