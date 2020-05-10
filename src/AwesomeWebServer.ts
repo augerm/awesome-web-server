@@ -67,7 +67,7 @@ export class AwesomeWebSocket {
 }
 
 export class AwesomeWebSocketServer {
-    private webSockets: AwesomeWebSocket[];
+    private webSockets: AwesomeWebSocket[] = [];
     getClients() {
         return this.webSockets;
     }
