@@ -57,12 +57,16 @@ export class AwesomeWebSocketConnection {
     }
 
     private handleMessage(messageJson: string) {
-        const message = (JSON.parse(messageJson)) as AwesomeWebSocketMessageFromServer;
-        const listeners = this.listeners.get(message.type);
-        if(listeners) {
-            listeners.forEach((listener) => {
-                listener(message);
-            });
+        try {
+            const message = (JSON.parse(messageJson)) as AwesomeWebSocketMessageFromServer;
+            const listeners = this.listeners.get(message.type);
+            if(listeners) {
+                listeners.forEach((listener) => {
+                    listener(message);
+                });
+            }
+        } catch(err) {
+            console.error(`Received invalid JSON message from server: ${messageJson}`);
         }
     }
 
